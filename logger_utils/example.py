@@ -1,5 +1,5 @@
 import logging
-import contextlib
+from contextlib import redirect_stdout
 from logger_utils import instantiate_logger, OutputLogger
 
 LOGGER_NAME = 'test'
@@ -14,8 +14,8 @@ def test():
     instantiate_logger(LOGGER_NAME, level_console=logging.DEBUG)
     logger = logging.getLogger(LOGGER_NAME)
 
-    with contextlib.redirect_stdout(
-            OutputLogger(logger_name=LOGGER_NAME, logging_level=logging.DEBUG)):    # type: ignore
+    with redirect_stdout(OutputLogger(logger_name=LOGGER_NAME,
+                                      logging_level=logging.DEBUG)):    # type: ignore
         print(MESSAGE + ' by print()')
         third_party_function()
 

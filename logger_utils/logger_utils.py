@@ -60,7 +60,7 @@ def instantiate_logger(
     """
     Make logging method can both show message on console and record on file.
 
-    If the value of arg `log_path` is `None` (default), then the 
+    If the value of arg `log_path` is `None` (default), then the logs would not be recorded.
     """
 
     # create a new logger for customization

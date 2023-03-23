@@ -27,3 +27,17 @@ def test_redirect_info_level(capsys):
 
     captured = capsys.readouterr()
     assert f'DEBUG    {Path(__file__).name} - test_redirect() : {MESSAGE}' not in captured.err
+
+
+def test_redirect_other_function(capsys):
+    instantiate_logger(LOGGER_NAME, level_console=logging.DEBUG)
+
+    def test():
+        print(MESSAGE)
+
+    with contextlib.redirect_stdout(
+            OutputLogger(logger_name=LOGGER_NAME, logging_level=logging.DEBUG)):    # type: ignore
+        test()
+
+    captured = capsys.readouterr()
+    assert f'DEBUG    {Path(__file__).name} - test() : {MESSAGE}' in captured.err
