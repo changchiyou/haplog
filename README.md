@@ -65,7 +65,7 @@ with redirect_stdout(OutputLogger(logger_name=LOGGER_NAME, logging_level=logging
 
 Download and execute [`/examples/demo_logger_utils.py`](/examples/demo_logger_utils.py):
 
-![](/examples/demo_logger_utils.png)
+![image](https://i.imgur.com/fEOZr2e.png)
 
 Check [ANSI Color Codes](https://talyian.github.io/ansicolors/) for more personalized color schemes.
 
