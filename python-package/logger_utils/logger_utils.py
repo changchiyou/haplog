@@ -4,7 +4,8 @@ from logging import handlers
 from pathlib import Path
 
 LOGGING_FORMAT = "%(asctime)s %(levelname)-8s %(filename)s - %(funcName)s() : %(message)s"
-LOG_NAME = 'log'
+BASE_LOG_NAME = 'record'
+SUFFIX_LOG_NAME = '%Y-%m-%d.log'
 
 
 class CustomFormatter(logging.Formatter):
@@ -52,7 +53,9 @@ def instantiate_logger(
     log_path: str | Path | None = None,
     level_log: int = logging.DEBUG,
     format_log: str = LOGGING_FORMAT,
-    log_name: str = LOG_NAME,
+    base_log_name: str = BASE_LOG_NAME,
+    suffix_log_name: str = SUFFIX_LOG_NAME,
+    rotate_period: tuple[str, int] = ('midnight', 1),
     # print logs on console
     level_console: int = logging.INFO,
     format_console: str = LOGGING_FORMAT,
@@ -70,11 +73,11 @@ def instantiate_logger(
     # logger for log
     if log_path is not None:
         formatter_log = logging.Formatter(format_log)
-        handler_log = handlers.TimedRotatingFileHandler((Path(log_path) / log_name).resolve(),
-                                                        when='midnight',
-                                                        interval=1)
+        handler_log = handlers.TimedRotatingFileHandler((Path(log_path) / base_log_name).resolve(),
+                                                        when=rotate_period[0],
+                                                        interval=rotate_period[1])
         handler_log.setFormatter(formatter_log)
-        handler_log.suffix = '%Y%m%d'
+        handler_log.suffix = suffix_log_name
         logger.addHandler(handler_log)
 
     # logger for console

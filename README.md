@@ -39,14 +39,14 @@ pip install "git+https://github.com/changchiyou/logger_utils.git#egg=logger_util
     ```
     instantiate_logger('your_logger_name', 'your_logs_folder_path')
     ```
-    The messages will first be recorded in `log`, and after the date is changed every day, the date of the previous day will be added as a suffix after the file name, such as `log.20230324`, and a new `log` file will be created to continue recording messages. The folder structure is as follows:
+    The messages will first be recorded in `record`, and after the date is changed every day, the date of the previous day will be added as a suffix after the file name, such as `record.2023-03-24.log`, and a new `record` file will be created to continue recording messages. The folder structure is as follows:
     ```
     your_logs_folder_path
-    ├── log
-    ├── log.20230324
-    ├── log.20230323
-    ├── log.20230322
-    └── log.20230321
+    ├── record
+    ├── record.2023-03-24.log
+    ├── record.2023-03-23.log
+    ├── record.2023-03-22.log
+    └── record.2023-03-21.log
     ```
 
 ## [(class) OutputLogger](#content)
