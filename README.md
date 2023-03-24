@@ -16,7 +16,7 @@ Some utilities to enhance the experience of using the `logging` module:
 
 # [Installation](#content)
 ```
-pip install "git+https://github.com/changchiyou/logger_utils.git#egg=logger_utils\&subdirectory=python-package"
+pip install "git+https://github.com/changchiyou/logger_utils.git#egg=logger_utils&subdirectory=python-package"
 ```
 
 # [Usage](#content)
