@@ -15,19 +15,19 @@ Some utilities to enhance the experience of using the `logging` module:
 - [Reference](#reference)
 
 # [Installation](#content)
-```
+```console
 pip install "git+https://github.com/changchiyou/logger_utils.git#egg=logger_utils&subdirectory=python-package"
 ```
 
 # [Usage](#content)
 ## [(function) instantiate_logger](#content)
 1. Execute first:
-    ```
+    ```python
     instantiate_logger('your_logger_name')
     ```
 2. Then get the logger before you want to log some info:
-    ```
-    logger = logging.getLogger('your_logger_name)
+    ```python
+    logger = logging.getLogger('your_logger_name')
 
     logger.debug('debug msg')
     logger.info('info msg')
@@ -36,7 +36,7 @@ pip install "git+https://github.com/changchiyou/logger_utils.git#egg=logger_util
     logger.critical('critical msg')
     ```
 3. If you want the messages to be logged to the log instead of just displayed on the console. Go back to step `1.` and add another argument:
-    ```
+    ```python
     instantiate_logger('your_logger_name', 'your_logs_folder_path')
     ```
     The messages will first be recorded in `record`, and after the date is changed every day, the date of the previous day will be added as a suffix after the file name, such as `record.2023-03-24.log`, and a new `record` file will be created to continue recording messages. The folder structure is as follows:
@@ -51,7 +51,7 @@ pip install "git+https://github.com/changchiyou/logger_utils.git#egg=logger_util
 
 ## [(class) OutputLogger](#content)
 Use the `with` syntax to wrap the content you want to redirect:
-```
+```python
 from contextlib import redirect_stdout
 
 instantiate_logger(LOGGER_NAME)
