@@ -77,7 +77,8 @@ def instantiate_logger(
         formatter_log = logging.Formatter(format_log)
         handler_log = handlers.TimedRotatingFileHandler((Path(log_path) / base_log_name).resolve(),
                                                         when=rotate_period[0],
-                                                        interval=rotate_period[1])
+                                                        interval=rotate_period[1],
+                                                        encoding='utf-8')
         handler_log.setFormatter(formatter_log)
         handler_log.suffix = suffix_log_name
         logger.addHandler(handler_log)
