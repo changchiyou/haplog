@@ -52,7 +52,7 @@ def test_log(tmp_path, capsys):
     assert f'INFO     {Path(__file__).name} - test_log() : {MESSAGE}' in captured.err
     assert f'DEBUG    {Path(__file__).name} - test_log() : {MESSAGE}' not in captured.err
 
-    File = open(tmp_path / 'log', mode='r')
+    File = open(tmp_path / 'record', mode='r')
     contents = File.read()
     File.close()
 
