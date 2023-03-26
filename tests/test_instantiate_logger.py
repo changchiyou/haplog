@@ -1,7 +1,7 @@
 import logging
 from pathlib import Path
 
-from logger_utils import instantiate_logger
+from haplog import instantiate_logger
 
 LOGGER_NAME = 'test'
 MESSAGE = 'test'

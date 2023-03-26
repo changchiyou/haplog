@@ -1,7 +1,7 @@
 import logging
 from pathlib import Path
 from contextlib import redirect_stdout
-from logger_utils import instantiate_logger, OutputLogger
+from haplog import instantiate_logger, OutputLogger
 
 LOGGER_NAME = 'test'
 MESSAGE = 'test'

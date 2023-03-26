@@ -1,4 +1,6 @@
-# [Introdoction](#content)
+# haplog
+Happy logging guys :)
+## [Introdoction](#content)
 Some utilities to enhance the experience of using the `logging` module:
 
 1. `(function) instantiate_logger`
@@ -6,7 +8,7 @@ Some utilities to enhance the experience of using the `logging` module:
 2. `(class) OutputLogger`
    Redirect the standard output of third-party modules to log records, which is usually used when developers are unwilling to spend time manually changing `print()` to the corresponding `logging` function.
 
-# [Content](#content)
+## [Content](#content)
 - [Introdoction](#introdoction)
 - [Content](#content)
 - [Installation](#installation)
@@ -14,13 +16,13 @@ Some utilities to enhance the experience of using the `logging` module:
 - [Visual Effect](#visual-effect)
 - [Reference](#reference)
 
-# [Installation](#content)
+## [Installation](#content)
 ```console
-pip install "git+https://github.com/changchiyou/logger_utils.git#egg=logger_utils&subdirectory=python-package"
+pip install "https://github.com/changchiyou/haplog/archive/main.zip"
 ```
 
-# [Usage](#content)
-## [(function) instantiate_logger](#content)
+## [Usage](#content)
+### [(function) instantiate_logger](#content)
 1. Execute first:
     ```python
     instantiate_logger('your_logger_name')
@@ -49,7 +51,7 @@ pip install "git+https://github.com/changchiyou/logger_utils.git#egg=logger_util
     └── record.2023-03-21.log
     ```
 
-## [(class) OutputLogger](#content)
+### [(class) OutputLogger](#content)
 Use the `with` syntax to wrap the content you want to redirect:
 ```python
 from contextlib import redirect_stdout
@@ -61,14 +63,15 @@ with redirect_stdout(OutputLogger(logger_name=LOGGER_NAME, logging_level=logging
     third_party_function_has_print()
 ```
 
-# [Visual Effect](#content)
+## [Visual Effect](#content)
 
-Download and execute [`/examples/demo_logger_utils.py`](/examples/demo_logger_utils.py):
+Download and execute [`/examples/demo_haplog.py`](/examples/demo_haplog.py):
 
-![image](https://i.imgur.com/fEOZr2e.png)
+![image](https://i.imgur.com/8vqxL9K.png)
 
 Check [ANSI Color Codes](https://talyian.github.io/ansicolors/) for more personalized color schemes.
 
-# [Reference](#content)
+## [Reference](#content)
 - [StackOverflow: How to redirect stdout and stderr to logger in Python](https://stackoverflow.com/a/31688396)
 - [StackOverflow: How can I color Python logging output?](https://stackoverflow.com/a/56944256)
+- [Delgan/loguru: Python logging made (stupidly) simple - GitHub](https://github.com/Delgan/loguru)

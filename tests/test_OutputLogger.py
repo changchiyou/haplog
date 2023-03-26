@@ -2,7 +2,7 @@ import logging
 import contextlib
 from pathlib import Path
 
-from logger_utils import instantiate_logger, OutputLogger
+from haplog import instantiate_logger, OutputLogger
 
 LOGGER_NAME = 'test'
 MESSAGE = 'test'
