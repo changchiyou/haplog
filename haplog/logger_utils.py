@@ -1,8 +1,8 @@
 """Some implements of `logging` enhancement"""
 import logging
+import platform
 from logging import handlers
 from pathlib import Path
-from colorama import init
 
 LOGGING_FORMAT = "%(asctime)s %(levelname)-8s %(filename)s - %(funcName)s() : %(message)s"
 BASE_LOG_NAME = 'record'
@@ -15,7 +15,10 @@ class CustomFormatter(logging.Formatter):
     def __init__(self, costom_format: str):
 
         super().__init__()
-        init()
+
+        if platform.system == 'Windows':
+            from colorama import init    # type: ignore
+            init()
 
         # https://talyian.github.io/ansicolors/
 
