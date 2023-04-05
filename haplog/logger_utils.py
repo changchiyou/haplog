@@ -16,7 +16,7 @@ class CustomFormatter(logging.Formatter):
 
         super().__init__()
 
-        if platform.system == 'Windows':
+        if platform.system() == 'Windows':
             from colorama import init    # type: ignore
             init()
 
