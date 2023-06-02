@@ -56,6 +56,7 @@ class CustomFormatter(logging.Formatter):
 
 def instantiate_logger(
     logger_name: str,
+    sign: str = "",
     # record logs into file
     log_path: str | Path | None = None,
     level_log: int = logging.DEBUG,
@@ -72,6 +73,10 @@ def instantiate_logger(
 
     If the value of arg `log_path` is `None` (default), then the logs would not be recorded.
     """
+
+    if sign != "":
+        format_log = f"[{sign}] " + format_log
+        format_console = f"[{sign}]" + format_console
 
     # create a new logger for customization
     logger = logging.getLogger(logger_name)
