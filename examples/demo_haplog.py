@@ -1,28 +1,35 @@
 import logging
-from pathlib import Path
+import logging.handlers
+import multiprocessing
 from contextlib import redirect_stdout
-from haplog import instantiate_logger, OutputLogger
+from pathlib import Path
 
-LOGGER_NAME = 'test'
-MESSAGE = 'test'
+from haplog import MultiProcessLogger, OutputLogger, worker_configurer
+
+LOGGER_NAME = "test"
+MESSAGE = "test"
+
+log_folder = (Path(__file__).parent) / "logs"
+
+if log_folder.exists() is False:
+    log_folder.mkdir()
 
 
 def third_party_function():
-    print(MESSAGE + ' by third_party_function()')
+    print(MESSAGE + " by third_party_function()")
 
 
-def test():
-    log_folder = ((Path(__file__).parent) / 'logs')
+def single_process():
+    mpl = MultiProcessLogger(log_folder, level_console=logging.DEBUG)
+    mpl.start()
+    worker_configurer(mpl.queue)
 
-    if log_folder.exists() is False:
-        log_folder.mkdir()
-
-    instantiate_logger(LOGGER_NAME, log_folder, level_console=logging.DEBUG)
     logger = logging.getLogger(LOGGER_NAME)
 
-    with redirect_stdout(OutputLogger(logger_name=LOGGER_NAME,
-                                      logging_level=logging.DEBUG)):    # type: ignore
-        print(MESSAGE + ' by print()')
+    with redirect_stdout(
+        OutputLogger(logger_name=LOGGER_NAME, logging_level=logging.DEBUG)  # type: ignore
+    ):
+        print(MESSAGE + " by print()")
         third_party_function()
 
     logger.debug(MESSAGE)
@@ -31,6 +38,39 @@ def test():
     logger.error(MESSAGE)
     logger.critical(MESSAGE)
 
+    mpl.join()
 
-if __name__ == '__main__':
-    test()
+
+def worker_process(queue, configurer):
+    import time
+    from random import random
+
+    configurer(queue)
+
+    name = multiprocessing.current_process().name
+    logger = logging.getLogger(name)
+    logger.info("Worker started: %s" % name)
+    time.sleep(random())
+    logger.info("Worker finished: %s" % name)
+
+
+def multi_process():
+    mpl = MultiProcessLogger(log_folder, level_console=logging.DEBUG)
+    mpl.start()
+
+    workers = []
+    for _ in range(10):
+        worker = multiprocessing.Process(
+            target=worker_process, args=(mpl.queue, worker_configurer)
+        )
+        workers.append(worker)
+        worker.start()
+    for w in workers:
+        w.join()
+
+    mpl.join()
+
+
+if __name__ == "__main__":
+    single_process()
+    multi_process()
