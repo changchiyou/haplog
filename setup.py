@@ -5,7 +5,7 @@ requirements = ["colorama>=0.3.4 ; platform_system=='Windows'"]
 setup(
     name="haplog",
     packages=["haplog"],
-    version="0.1.0",
+    version="1.0.0",
     author="changchiyou",
     url="https://github.com/changchiyou/haplog",
     keywords=["haplog", "logging", "logger", "log"],
