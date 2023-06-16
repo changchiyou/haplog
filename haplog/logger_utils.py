@@ -2,6 +2,7 @@
 import logging
 import multiprocessing
 import platform
+import queue
 from logging import handlers
 from pathlib import Path
 from typing import Callable
@@ -151,13 +152,11 @@ class MultiProcessLogger:
         handler_console.setFormatter(CustomFormatter(self.format_console))
         root.addHandler(handler_console)
 
-    def listener_process(
-        self, queue: multiprocessing.Queue, configurer: Callable
-    ) -> None:
+    def listener_process(self, _queue: queue.Queue, configurer: Callable) -> None:
         configurer()
         while True:
             try:
-                record = queue.get()
+                record = _queue.get()
                 if record is None:
                     break
                 logger = logging.getLogger(record.name)
@@ -180,13 +179,11 @@ class MultiProcessLogger:
         self.listener.join()
 
 
-def worker_configurer(
-    queue: multiprocessing.Queue, worker_level: int = logging.DEBUG
-) -> None:
+def worker_configurer(_queue: queue.Queue, worker_level: int = logging.DEBUG) -> None:
     """
-    Configure the logger for worker processes with input `queue` handler.
+    Configure the logger for worker processes with input `_queue` handler.
     """
-    handler = handlers.QueueHandler(queue)
+    handler = handlers.QueueHandler(_queue)
     root = logging.getLogger()
     root.addHandler(handler)
     # send all messages
