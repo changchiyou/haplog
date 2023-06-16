@@ -125,7 +125,7 @@ class MultiProcessLogger:
         self.level_console = level_console
         self.format_console = format_console
 
-        self.queue = multiprocessing.Queue(-1)
+        self.queue = multiprocessing.Manager().Queue(-1)
         self.listener = multiprocessing.Process(
             target=self.listener_process, args=(self.queue, self.listener_configurer)
         )

@@ -1,3 +1,4 @@
+import concurrent.futures
 import logging
 import logging.handlers
 import multiprocessing
@@ -22,7 +23,7 @@ def third_party_function():
 def single_process():
     mpl = MultiProcessLogger(log_folder, level_console=logging.DEBUG)
     mpl.start()
-    worker_configurer(mpl.queue)
+    worker_configurer(mpl.queue)  # type: ignore
 
     logger = logging.getLogger(LOGGER_NAME)
 
@@ -58,15 +59,9 @@ def multi_process():
     mpl = MultiProcessLogger(log_folder, level_console=logging.DEBUG)
     mpl.start()
 
-    workers = []
-    for _ in range(10):
-        worker = multiprocessing.Process(
-            target=worker_process, args=(mpl.queue, worker_configurer)
-        )
-        workers.append(worker)
-        worker.start()
-    for w in workers:
-        w.join()
+    with concurrent.futures.ProcessPoolExecutor(max_workers=10) as executor:
+        for _ in range(10):
+            executor.submit(worker_process, mpl.queue, worker_configurer)
 
     mpl.join()
 
