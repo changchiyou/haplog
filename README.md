@@ -7,16 +7,16 @@ Happy logging guys :)
 Provides enhancements for `logging` functionality, including:
 
 1. Color the texts of `logging`:
-   https://github.com/changchiyou/haplog/blob/d3ead6306cd15c7fb3f577d39aa6283afaac0dbf/haplog/logger_utils.py#L30-L54
+   https://github.com/changchiyou/haplog/blob/314615619d2b3b338a39025d86fb13992e4d32d6/haplog/logger_utils.py#L30-L54
 2. Redirect the standard output of third-party modules to log records, which is usually used when developers are unwilling to spend time manually changing `print()` to the corresponding `logging` function.
-   https://github.com/changchiyou/haplog/blob/d3ead6306cd15c7fb3f577d39aa6283afaac0dbf/haplog/logger_utils.py#L62-L68
-   https://github.com/changchiyou/haplog/blob/d3ead6306cd15c7fb3f577d39aa6283afaac0dbf/examples/demo_haplog.py#L29-L33
+   https://github.com/changchiyou/haplog/blob/314615619d2b3b338a39025d86fb13992e4d32d6/haplog/logger_utils.py#L62-L68
+   https://github.com/changchiyou/haplog/blob/314615619d2b3b338a39025d86fb13992e4d32d6/examples/demo_haplog.py#L30-L34
 3. Logging (of cource):
-   https://github.com/changchiyou/haplog/blob/d3ead6306cd15c7fb3f577d39aa6283afaac0dbf/haplog/logger_utils.py#L97-L104
+   https://github.com/changchiyou/haplog/blob/314615619d2b3b338a39025d86fb13992e4d32d6/haplog/logger_utils.py#L97-L104
    1. single-process:
-      https://github.com/changchiyou/haplog/blob/d3ead6306cd15c7fb3f577d39aa6283afaac0dbf/examples/demo_haplog.py#L22-L41
+      https://github.com/changchiyou/haplog/blob/314615619d2b3b338a39025d86fb13992e4d32d6/examples/demo_haplog.py#L23-L42
    2. multi-process:
-      https://github.com/changchiyou/haplog/blob/d3ead6306cd15c7fb3f577d39aa6283afaac0dbf/examples/demo_haplog.py#L57-L71
+      https://github.com/changchiyou/haplog/blob/314615619d2b3b338a39025d86fb13992e4d32d6/examples/demo_haplog.py#L58-L66
 
 ## [Content](#content)
 
@@ -36,7 +36,7 @@ pip install "https://github.com/changchiyou/haplog/archive/main.zip"
 
 Download and execute [`/examples/demo_haplog.py`](/examples/demo_haplog.py):
 
-https://github.com/changchiyou/haplog/blob/3a0ddb09a61a1ac932efa59206fd022c3b219854/examples/demo_haplog.py#L1-L76
+https://github.com/changchiyou/haplog/blob/314615619d2b3b338a39025d86fb13992e4d32d6/examples/demo_haplog.py#L1-L71
 
 ![image](https://i.imgur.com/jQgP93Y.png)
 
