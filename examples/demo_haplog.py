@@ -23,7 +23,7 @@ def third_party_function():
 def single_process():
     mpl = MultiProcessLogger(log_folder, level_console=logging.DEBUG)
     mpl.start()
-    worker_configurer(mpl.queue)  # type: ignore
+    worker_configurer(mpl.queue)
 
     logger = logging.getLogger(LOGGER_NAME)
 

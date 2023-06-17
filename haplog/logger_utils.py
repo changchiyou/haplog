@@ -107,7 +107,7 @@ class MultiProcessLogger:
     def __init__(
         self,
         # record logs into file
-        log_path: str | Path,
+        log_path: str | Path | None = None,
         level_log: int = logging.DEBUG,
         format_log: str = LOGGING_FORMAT,
         base_log_name: str = BASE_LOG_NAME,
@@ -135,16 +135,17 @@ class MultiProcessLogger:
         root = logging.getLogger()
 
         # logger for logs
-        formatter_log = logging.Formatter(self.format_log)
-        handler_log = handlers.TimedRotatingFileHandler(
-            (Path(self.log_path) / self.base_log_name).resolve(),
-            when=self.rotate_period[0],
-            interval=self.rotate_period[1],
-            encoding="utf-8",
-        )
-        handler_log.setFormatter(formatter_log)
-        handler_log.suffix = self.suffix_log_name
-        root.addHandler(handler_log)
+        if self.log_path is not None:
+            formatter_log = logging.Formatter(self.format_log)
+            handler_log = handlers.TimedRotatingFileHandler(
+                (Path(self.log_path) / self.base_log_name).resolve(),
+                when=self.rotate_period[0],
+                interval=self.rotate_period[1],
+                encoding="utf-8",
+            )
+            handler_log.setFormatter(formatter_log)
+            handler_log.suffix = self.suffix_log_name
+            root.addHandler(handler_log)
 
         # logger for console
         handler_console = logging.StreamHandler()
