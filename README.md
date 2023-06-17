@@ -2,6 +2,13 @@
 
 Happy logging guys :)
 
+## Content
+
+- [Introdoction](#introdoction)
+- [Installation](#installation)
+- [Usage & Visual Effect](#usage--visual-effect)
+- [Reference](#reference)
+
 ## [Introdoction](#content)
 
 Provides enhancements for `logging` functionality, including:
@@ -17,14 +24,6 @@ Provides enhancements for `logging` functionality, including:
       https://github.com/changchiyou/haplog/blob/314615619d2b3b338a39025d86fb13992e4d32d6/examples/demo_haplog.py#L23-L42
    2. multi-process:
       https://github.com/changchiyou/haplog/blob/314615619d2b3b338a39025d86fb13992e4d32d6/examples/demo_haplog.py#L58-L66
-
-## [Content](#content)
-
-- [Introdoction](#introdoction)
-- [Content](#content)
-- [Installation](#installation)
-- [Usage & Visual Effect](#usage--visual-effect)
-- [Reference](#reference)
 
 ## [Installation](#content)
 
