@@ -162,6 +162,9 @@ class MultiProcessLogger:
                     break
                 logger = logging.getLogger(record.name)
                 logger.handle(record)
+            except BrokenPipeError:
+                # https://github.com/changchiyou/haplog/issues/2
+                self.join()
             except Exception:
                 import sys
                 import traceback
