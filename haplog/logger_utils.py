@@ -130,6 +130,7 @@ class MultiProcessLogger:
         self.listener = multiprocessing.Process(
             target=self.listener_process, args=(self.queue, self.listener_configurer)
         )
+        self.listener.daemon = True
 
     def listener_configurer(self):
         root = logging.getLogger()
@@ -162,18 +163,17 @@ class MultiProcessLogger:
                     break
                 logger = logging.getLogger(record.name)
                 logger.handle(record)
-            except BrokenPipeError:
-                # https://github.com/changchiyou/haplog/issues/2
-                self.join()
             except Exception:
                 import sys
                 import traceback
 
                 print(
-                    "Oops! An issue occurred during the logging process:",
+                    "Oops! An issue occurred during the logging process: ",
                     file=sys.stderr,
                 )
                 traceback.print_exc(file=sys.stderr)
+            finally:
+                self.join()
 
     def start(self):
         self.listener.start()
