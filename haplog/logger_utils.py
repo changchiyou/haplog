@@ -24,7 +24,7 @@ class CustomFormatter(logging.Formatter):
         super().__init__()
 
         if platform.system() == "Windows":
-            # pylint: disable-next=import-error
+            # pylint: disable-next=import-outside-toplevel, import-error
             from colorama import init  # type: ignore
 
             init()
@@ -165,6 +165,7 @@ class MultiProcessLogger:
         while True:
             try:
                 record = my_queue.get()
+                # pylint: disable-next=consider-using-assignment-expr
                 if record is None:
                     break
                 logger = logging.getLogger(record.name)

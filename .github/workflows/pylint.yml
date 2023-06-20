@@ -20,4 +20,4 @@ jobs:
           pip install pylint
       - name: Analysing the code with pylint
         run: |
-          pylint $(git ls-files '*.py') --ignore="build,__init__.py" --disable="fixme, invalid-name, import-outside-toplevel, consider-using-assignment-expr"
+          pylint $(git ls-files '*.py') --ignore="build,__init__.py" --disable="fixme, invalid-name"

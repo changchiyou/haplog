@@ -47,7 +47,10 @@ def single_process():
 
 def worker_process(queue, configurer):
     """Estimate the function of multi-process."""
+    # pylint: disable-next=import-outside-toplevel
     import time
+
+    # pylint: disable-next=import-outside-toplevel
     from random import random
 
     configurer(queue)
