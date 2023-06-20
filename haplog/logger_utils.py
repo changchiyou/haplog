@@ -105,6 +105,7 @@ class MultiProcessLogger:
     to a file and printing logs to the console.
     """
 
+    # pylint: disable=too-many-instance-attributes
     def __init__(
         self,
         # record logs into file
@@ -118,6 +119,7 @@ class MultiProcessLogger:
         level_console: int = logging.INFO,
         format_console: str = LOGGING_FORMAT,
     ):
+        # pylint: disable=too-many-arguments
         self.log_path = log_path
         self.level_log = level_log
         self.format_log = format_log
