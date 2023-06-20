@@ -162,7 +162,9 @@ class MultiProcessLogger:
     def listener_process(self, my_queue: queue.Queue, configurer: Callable) -> None:
         """Configure with `configure` first and listen the message from `my_queue` until break."""
         configurer()
+        # TODO: too many `pylint: disable`
         while True:
+            # pylint: disable-next=too-many-try-statements
             try:
                 record = my_queue.get()
                 # pylint: disable-next=consider-using-assignment-expr
