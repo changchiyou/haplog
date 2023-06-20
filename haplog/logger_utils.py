@@ -144,6 +144,7 @@ class MultiProcessLogger:
                 interval=self.rotate_period[1],
                 encoding="utf-8",
             )
+            handler_log.setLevel(self.level_log)
             handler_log.setFormatter(formatter_log)
             handler_log.suffix = self.suffix_log_name
             root.addHandler(handler_log)
