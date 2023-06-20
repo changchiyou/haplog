@@ -26,8 +26,7 @@ jobs:
             __init__.py \
           " \
           --disable=" \
-            fixme, \
-            invalid-name
+            fixme \
           " \
           --load-plugins=" \
             pylint.extensions.check_elif, \

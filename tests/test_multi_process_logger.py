@@ -109,9 +109,9 @@ def test_log(tmp_path, capfd):
 
     mpl.join()
 
-    with open(tmp_path / BASE_LOG_NAME, mode="r", encoding="utf-8") as fp:
-        contents = fp.read()
-        fp.close()
+    with open(tmp_path / BASE_LOG_NAME, mode="r", encoding="utf-8") as log_file:
+        contents = log_file.read()
+        log_file.close()
 
         captured = capfd.readouterr()
 
@@ -148,9 +148,9 @@ def test_console_log_diff_level(tmp_path, capfd):
 
     mpl.join()
 
-    with open(tmp_path / BASE_LOG_NAME, mode="r", encoding="utf-8") as fp:
-        contents = fp.read()
-        fp.close()
+    with open(tmp_path / BASE_LOG_NAME, mode="r", encoding="utf-8") as log_file:
+        contents = log_file.read()
+        log_file.close()
 
         captured = capfd.readouterr()
 

@@ -164,6 +164,7 @@ class MultiProcessLogger:
         configurer()
         # TODO: too many `pylint: disable`
         while True:
+            # https://github.com/changchiyou/haplog/pull/5#issuecomment-1598455811
             # pylint: disable-next=too-many-try-statements
             try:
                 record = my_queue.get()
