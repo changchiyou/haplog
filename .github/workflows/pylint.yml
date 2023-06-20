@@ -20,4 +20,27 @@ jobs:
           pip install pylint
       - name: Analysing the code with pylint
         run: |
-          pylint $(git ls-files '*.py') --ignore="build,__init__.py" --disable="fixme, invalid-name"
+          pylint $(git ls-files '*.py') \
+          --ignore=" \
+            build, \
+            __init__.py \
+          " \
+          --disable=" \
+            fixme, \
+            invalid-name
+          " \
+          --load-plugins=" \
+            pylint.extensions.check_elif, \
+            pylint.extensions.bad_builtin, \
+            pylint.extensions.docparams, \
+            pylint.extensions.for_any_all, \
+            pylint.extensions.set_membership, \
+            pylint.extensions.code_style, \
+            pylint.extensions.overlapping_exceptions, \
+            pylint.extensions.typing, \
+            pylint.extensions.redefined_variable_type, \
+            pylint.extensions.comparison_placement, \
+            pylint.extensions.broad_try_clause, \
+            pylint.extensions.dict_init_mutate, \
+            pylint.extensions.consider_refactoring_into_while_condition, \
+          "
