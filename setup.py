@@ -1,3 +1,4 @@
+"""install dependencies when `pip install` was runned."""
 from setuptools import setup
 
 requirements = ["colorama>=0.3.4 ; platform_system=='Windows'"]
