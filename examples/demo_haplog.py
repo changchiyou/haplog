@@ -1,3 +1,4 @@
+"""Demo for haplog, including single/multi-process and redirecting msg to logger."""
 import concurrent.futures
 import logging
 import logging.handlers
@@ -17,10 +18,12 @@ if log_folder.exists() is False:
 
 
 def third_party_function():
+    """Third-party function for `OutputLogger` redirecting showcase."""
     print(MESSAGE + " by third_party_function()")
 
 
 def single_process():
+    """Single process contains `OutputLogger` for redirecting."""
     mpl = MultiProcessLogger(log_folder, level_console=logging.DEBUG)
     mpl.start()
     worker_configurer(mpl.queue)
@@ -43,6 +46,7 @@ def single_process():
 
 
 def worker_process(queue, configurer):
+    """Estimate the function of multi-process."""
     import time
     from random import random
 
@@ -50,12 +54,13 @@ def worker_process(queue, configurer):
 
     name = multiprocessing.current_process().name
     logger = logging.getLogger(name)
-    logger.info("Worker started: %s" % name)
+    logger.info("Worker started: %s", name)
     time.sleep(random())
-    logger.info("Worker finished: %s" % name)
+    logger.info("Worker finished: %s", name)
 
 
 def multi_process():
+    """Multi-process use `concurrent.futures.ProcessPoolExecutor`."""
     mpl = MultiProcessLogger(log_folder, level_console=logging.DEBUG)
     mpl.start()
 

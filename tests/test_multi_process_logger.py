@@ -109,9 +109,9 @@ def test_log(tmp_path, capfd):
 
     mpl.join()
 
-    with open(tmp_path / BASE_LOG_NAME, mode="r") as File:
-        contents = File.read()
-        File.close()
+    with open(tmp_path / BASE_LOG_NAME, mode="r", encoding="utf-8") as fp:
+        contents = fp.read()
+        fp.close()
 
         captured = capfd.readouterr()
 
@@ -148,27 +148,27 @@ def test_console_log_diff_level(tmp_path, capfd):
 
     mpl.join()
 
-    with open(tmp_path / BASE_LOG_NAME, mode="r") as File:
-        contents = File.read()
-        File.close()
+    with open(tmp_path / BASE_LOG_NAME, mode="r", encoding="utf-8") as fp:
+        contents = fp.read()
+        fp.close()
 
         captured = capfd.readouterr()
 
         assert (
-            f"INFO     [{LOGGER_NAME}] {Path(__file__).name} - test_console_log_diff_level() : {MESSAGE}"
-            in captured.err
+            f"INFO     [{LOGGER_NAME}] {Path(__file__).name}"
+            f" - test_console_log_diff_level() : {MESSAGE}" in captured.err
         )
 
         assert (
-            f"DEBUG    [{LOGGER_NAME}] {Path(__file__).name} - test_console_log_diff_level() : {MESSAGE}"
-            not in captured.err
+            f"DEBUG    [{LOGGER_NAME}] {Path(__file__).name}"
+            f" - test_console_log_diff_level() : {MESSAGE}" not in captured.err
         )
 
         assert (
-            f"INFO     [{LOGGER_NAME}] {Path(__file__).name} - test_console_log_diff_level() : {MESSAGE}"
-            in contents
+            f"INFO     [{LOGGER_NAME}] {Path(__file__).name}"
+            f" - test_console_log_diff_level() : {MESSAGE}" in contents
         )
         assert (
-            f"DEBUG    [{LOGGER_NAME}] {Path(__file__).name} - test_console_log_diff_level() : {MESSAGE}"
-            in contents
+            f"DEBUG    [{LOGGER_NAME}] {Path(__file__).name}"
+            f" - test_console_log_diff_level() : {MESSAGE}" in contents
         )

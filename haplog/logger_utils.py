@@ -3,9 +3,9 @@ import logging
 import multiprocessing
 import platform
 import queue
+from collections.abc import Callable
 from logging import handlers
 from pathlib import Path
-from typing import Callable
 
 LOGGING_FORMAT = (
     "%(asctime)s %(levelname)-8s [%(name)s] %(filename)s - %(funcName)s() : %(message)s"
@@ -24,6 +24,7 @@ class CustomFormatter(logging.Formatter):
         super().__init__()
 
         if platform.system() == "Windows":
+            # pylint: disable-next=import-error
             from colorama import init  # type: ignore
 
             init()
@@ -133,6 +134,7 @@ class MultiProcessLogger:
         self.listener.daemon = True
 
     def listener_configurer(self):
+        """Configure listener for both logging in file and console."""
         root = logging.getLogger()
 
         # logger for logs
@@ -155,17 +157,22 @@ class MultiProcessLogger:
         handler_console.setFormatter(CustomFormatter(self.format_console))
         root.addHandler(handler_console)
 
-    def listener_process(self, _queue: queue.Queue, configurer: Callable) -> None:
+    def listener_process(self, my_queue: queue.Queue, configurer: Callable) -> None:
+        """Configure with `configure` first and listen the message from `my_queue` until break."""
         configurer()
         while True:
             try:
-                record = _queue.get()
+                record = my_queue.get()
                 if record is None:
                     break
                 logger = logging.getLogger(record.name)
                 logger.handle(record)
+            # pylint: disable-next=broad-exception-caught
             except Exception:
+                # pylint: disable-next=import-outside-toplevel
                 import sys
+
+                # pylint: disable-next=import-outside-toplevel
                 import traceback
 
                 print(
@@ -175,9 +182,11 @@ class MultiProcessLogger:
                 traceback.print_exc(file=sys.stderr)
 
     def start(self):
+        """Start the process `self.listener`."""
         self.listener.start()
 
     def join(self):
+        """Put a `None` into queue and make the while loop in `self.listener_process` break."""
         self.queue.put_nowait(None)
         self.listener.join()
 
