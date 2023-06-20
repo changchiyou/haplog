@@ -173,8 +173,6 @@ class MultiProcessLogger:
                     file=sys.stderr,
                 )
                 traceback.print_exc(file=sys.stderr)
-            finally:
-                self.join()
 
     def start(self):
         self.listener.start()

@@ -170,5 +170,5 @@ def test_console_log_diff_level(tmp_path, capfd):
         )
         assert (
             f"DEBUG    [{LOGGER_NAME}] {Path(__file__).name} - test_console_log_diff_level() : {MESSAGE}"
-            not in contents
+            in contents
         )
