@@ -5,8 +5,10 @@ from pathlib import Path
 
 from haplog import MultiProcessLogger, OutputLogger, worker_configurer
 
-LOGGER_NAME = "test"
-MESSAGE = "test"
+LOGGER_NAME = "test_logger"
+MESSAGE = "test_info"
+
+# pylint: disable=invalid-name
 
 
 def test_redirect_debug_level(capfd):

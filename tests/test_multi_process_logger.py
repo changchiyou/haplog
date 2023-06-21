@@ -8,11 +8,12 @@ from haplog import BASE_LOG_NAME, MultiProcessLogger, worker_configurer
 # https://stackoverflow.com/questions/76487303/pytest-unit-test-for-loggingmulti-processqueuehandler
 # May be useful: https://github.com/pytest-dev/pytest/issues/3037#issuecomment-745050393
 
-LOGGER_NAME = "test"
-MESSAGE = "test"
+LOGGER_NAME = "test_logger"
+MESSAGE = "test_info"
+
+# pylint: disable=invalid-name
 
 
-# pylint: disable-next=invalid-name
 def test_console_default_info_single_process(capfd):
     """(Single-process)Test the console logging with default level (INFO)."""
     mpl = MultiProcessLogger()
@@ -33,7 +34,46 @@ def test_console_default_info_single_process(capfd):
     )
 
 
-# pylint: disable-next=invalid-name
+def test_console_default_info_multi_process_normal(capfd):
+    """(Multi-process)Test the console logging with default level (INFO)."""
+    mpl = MultiProcessLogger()
+    mpl.start()
+    worker_configurer(mpl.queue)
+
+    logger = logging.getLogger(LOGGER_NAME)
+
+    logger.info(MESSAGE)
+
+    mpl.join()
+
+    captured = capfd.readouterr()
+
+    assert (
+        f"INFO     [{LOGGER_NAME}] {Path(__file__).name}"
+        f" - {inspect.stack()[0][3]}() : {MESSAGE}" in captured.err
+    )
+
+
+def test_console_default_info_multi_process_(capfd):
+    """(Multi-process)Test the console logging with default level (INFO)."""
+    mpl = MultiProcessLogger()
+    mpl.start()
+    worker_configurer(mpl.queue)
+
+    logger = logging.getLogger(LOGGER_NAME)
+
+    logger.info(MESSAGE)
+
+    mpl.join()
+
+    captured = capfd.readouterr()
+
+    assert (
+        f"INFO     [{LOGGER_NAME}] {Path(__file__).name}"
+        f" - {inspect.stack()[0][3]}() : {MESSAGE}" in captured.err
+    )
+
+
 def test_console_info_single_process(capfd):
     """(Single-process)Test the console logging with explicit INFO level."""
     mpl = MultiProcessLogger(level_console=logging.INFO)
@@ -54,7 +94,6 @@ def test_console_info_single_process(capfd):
     )
 
 
-# pylint: disable-next=invalid-name
 def test_console_debug_single_process(capfd):
     """(Single-process)Test the console logging with DEBUG level."""
     mpl = MultiProcessLogger(level_console=logging.DEBUG)
@@ -75,7 +114,6 @@ def test_console_debug_single_process(capfd):
     )
 
 
-# pylint: disable-next=invalid-name
 def test_console_debug_info_level_single_process(capfd):
     """
     (Single-process)Test the project's ability to filter out messages based on `logging.INFO`
@@ -105,7 +143,6 @@ def test_console_debug_info_level_single_process(capfd):
     )
 
 
-# pylint: disable-next=invalid-name
 def test_log_single_process(tmp_path, capfd):
     """
     (Single-process)Test writing logs to a log file based on both logs/console `logging.DEBUG`,
@@ -148,7 +185,6 @@ def test_log_single_process(tmp_path, capfd):
         )
 
 
-# pylint: disable-next=invalid-name
 def test_console_log_diff_level_single_process(tmp_path, capfd):
     """
     (Single-process)Test the project's ability to filter out messages based on `logging.INFO`
