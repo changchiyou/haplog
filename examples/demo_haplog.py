@@ -74,6 +74,7 @@ def multi_process_ing():
         )
         workers.append(worker)
         worker.start()
+    # pylint: disable=invalid-name
     for w in workers:
         w.join()
 
