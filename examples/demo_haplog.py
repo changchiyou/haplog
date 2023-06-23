@@ -62,13 +62,31 @@ def worker_process(queue, configurer):
     logger.info("Worker finished: %s", name)
 
 
-def multi_process():
+def multi_process_ing():
+    """Multi-process use `multiprocessing`."""
+    mpl = MultiProcessLogger(log_folder, level_console=logging.DEBUG)
+    mpl.start()
+
+    workers = []
+    for _ in range(5):
+        worker = multiprocessing.Process(
+            target=worker_process, args=(mpl.queue, worker_configurer)
+        )
+        workers.append(worker)
+        worker.start()
+    for w in workers:
+        w.join()
+
+    mpl.join()
+
+
+def multi_process_con():
     """Multi-process use `concurrent.futures.ProcessPoolExecutor`."""
     mpl = MultiProcessLogger(log_folder, level_console=logging.DEBUG)
     mpl.start()
 
     with concurrent.futures.ProcessPoolExecutor(max_workers=10) as executor:
-        for _ in range(10):
+        for _ in range(5):
             executor.submit(worker_process, mpl.queue, worker_configurer)
 
     mpl.join()
@@ -76,4 +94,8 @@ def multi_process():
 
 if __name__ == "__main__":
     single_process()
-    multi_process()
+
+    print()
+    multi_process_ing()
+    print()
+    multi_process_con()
