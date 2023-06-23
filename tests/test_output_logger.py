@@ -1,18 +1,21 @@
 """Unit test for `haplog.OutputLogger` via `pytest`."""
+import concurrent.futures
 import contextlib
 import logging
+import multiprocessing
 from pathlib import Path
 
 from haplog import MultiProcessLogger, OutputLogger, worker_configurer
 
 LOGGER_NAME = "test_logger"
 MESSAGE = "test_info"
+MULTI_PROCESS_NUM = 5
 
 # pylint: disable=invalid-name
 
 
 def test_redirect_debug_level(capfd):
-    """Test the redirection of output to a logger with DEBUG level."""
+    """Test the redirection of output from `print` to a logger with DEBUG level."""
     mpl = MultiProcessLogger(level_console=logging.DEBUG)
     mpl.start()
     worker_configurer(mpl.queue)
@@ -30,8 +33,67 @@ def test_redirect_debug_level(capfd):
     )
 
 
+def func0(queue, configurer):
+    configurer(queue)
+    with contextlib.redirect_stdout(
+        OutputLogger(logger_name=LOGGER_NAME, logging_level=logging.DEBUG)  # type: ignore
+    ):
+        print(MESSAGE)
+
+
+def test_multi_ing_debug_level(capfd):
+    mpl = MultiProcessLogger(level_console=logging.DEBUG)
+    mpl.start()
+
+    workers = []
+    for _ in range(MULTI_PROCESS_NUM):
+        worker = multiprocessing.Process(
+            target=func0, args=(mpl.queue, worker_configurer)
+        )
+        workers.append(worker)
+        worker.start()
+    for w in workers:
+        w.join()
+
+    mpl.join()
+
+    captured = capfd.readouterr()
+
+    assert (
+        captured.err.count(
+            f"DEBUG    [{LOGGER_NAME}] {Path(__file__).name}"
+            f" - {func0.__name__}() : {MESSAGE}"
+        )
+        == MULTI_PROCESS_NUM
+    )
+
+
+def test_multi_con_debug_level(capfd):
+    mpl = MultiProcessLogger(level_console=logging.DEBUG)
+    mpl.start()
+
+    with contextlib.redirect_stdout(
+        OutputLogger(logger_name=LOGGER_NAME, logging_level=logging.DEBUG)  # type: ignore
+    ):
+        with concurrent.futures.ProcessPoolExecutor(max_workers=10) as executor:
+            for _ in range(MULTI_PROCESS_NUM):
+                executor.submit(func0, mpl.queue, worker_configurer)
+
+    mpl.join()
+
+    captured = capfd.readouterr()
+
+    assert (
+        captured.err.count(
+            f"DEBUG    [{LOGGER_NAME}] {Path(__file__).name}"
+            f" - {func0.__name__}() : {MESSAGE}"
+        )
+        == MULTI_PROCESS_NUM
+    )
+
+
 def test_redirect_info_level(capfd):
-    """Test the redirection of output to a logger with default (INFO) level."""
+    """Test the redirection of output from `print` to a logger with default (INFO) level."""
     mpl = MultiProcessLogger()
     mpl.start()
     worker_configurer(mpl.queue)
@@ -50,7 +112,7 @@ def test_redirect_info_level(capfd):
 
 
 def test_redirect_other_function(capfd):
-    """Test the redirection of output to a logger from another function."""
+    """Test the redirection of output from other functions to a logger from another function."""
 
     def test1():
         print(MESSAGE)
