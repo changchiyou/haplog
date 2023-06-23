@@ -36,9 +36,6 @@ class LogListner:
 class SingleProcess(LogListner):
     """Implement a log-listner for single-process."""
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
     def execute(self, function):
         """Execute function with `self.logger`."""
         function(self.mpl.queue, worker_configurer)
@@ -46,8 +43,7 @@ class SingleProcess(LogListner):
 
 
 class MultiProcessMultiprocessing(LogListner):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    """Implement a log-listner for multi-process(multiprocessing)."""
 
     def execute(self, function, num: int):
         """Execute function with `self.logger`."""
@@ -64,8 +60,7 @@ class MultiProcessMultiprocessing(LogListner):
 
 
 class MultiProcessConcurrentFutures(LogListner):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    """Implement a log-listner for multi-process(concurrent.futures)."""
 
     def execute(self, function, num: int):
         """Execute function with `self.logger`."""
@@ -75,6 +70,7 @@ class MultiProcessConcurrentFutures(LogListner):
 
 
 def logs_info_1(queue, configurer):
+    """Config, log with single info message."""
     configurer(queue)
 
     logger = logging.getLogger(LOGGER_NAME)
@@ -82,6 +78,7 @@ def logs_info_1(queue, configurer):
 
 
 def logs_debug_1(queue, configurer):
+    """Config, log with single debug message."""
     configurer(queue)
 
     logger = logging.getLogger(LOGGER_NAME)
@@ -89,6 +86,7 @@ def logs_debug_1(queue, configurer):
 
 
 def logs_warning_1(queue, configurer):
+    """Config, log with single warning message."""
     configurer(queue)
 
     logger = logging.getLogger(LOGGER_NAME)
@@ -96,6 +94,7 @@ def logs_warning_1(queue, configurer):
 
 
 def logs_info_1_debug_1(queue, configurer):
+    """Config, log with info and debug messages."""
     configurer(queue)
 
     logger = logging.getLogger(LOGGER_NAME)

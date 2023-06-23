@@ -34,6 +34,7 @@ def test_redirect_debug_level(capfd):
 
 
 def func0(queue, configurer):
+    """Redirect `print` message to logger which has `logging.DEBUG` level(for multi test only)."""
     configurer(queue)
     with contextlib.redirect_stdout(
         OutputLogger(logger_name=LOGGER_NAME, logging_level=logging.DEBUG)  # type: ignore
@@ -42,6 +43,9 @@ def func0(queue, configurer):
 
 
 def test_multi_ing_debug_level(capfd):
+    """
+    (multi-process-ing)Test the redirection of output from `print` to a logger with DEBUG level.
+    """
     mpl = MultiProcessLogger(level_console=logging.DEBUG)
     mpl.start()
 
@@ -69,6 +73,9 @@ def test_multi_ing_debug_level(capfd):
 
 
 def test_multi_con_debug_level(capfd):
+    """
+    (multi-process-con)Test the redirection of output from `print` to a logger with DEBUG level.
+    """
     mpl = MultiProcessLogger(level_console=logging.DEBUG)
     mpl.start()
 
