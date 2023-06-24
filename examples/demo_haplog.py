@@ -8,6 +8,8 @@ from pathlib import Path
 
 from haplog import MultiProcessLogger, OutputLogger, worker_configurer
 
+# pylint: disable=duplicate-code
+
 LOGGER_NAME = "test"
 MESSAGE = "test"
 
