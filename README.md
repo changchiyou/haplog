@@ -1,5 +1,6 @@
 # haplog
 
+**⚠️ DEPRECATE: This project has been deprecated since [loguru](https://github.com/Delgan/loguru) has most of the features that haplog originally intended to develop.**
 Happy logging guys :)
 
 ## Content
