@@ -38,7 +38,7 @@ Download and execute [`/examples/demo_haplog.py`](/examples/demo_haplog.py):
 
 https://github.com/changchiyou/haplog/blob/314615619d2b3b338a39025d86fb13992e4d32d6/examples/demo_haplog.py#L1-L71
 
-![image](https://i.imgur.com/jQgP93Y.png)
+![image](https://i.imgur.com/flpVeXN.png)
 
 Check [ANSI Color Codes](https://talyian.github.io/ansicolors/) for more personalized color schemes.
 

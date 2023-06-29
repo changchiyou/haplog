@@ -1,0 +1,45 @@
+name: Pylint
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10"]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pylint
+      - name: Analysing the code with pylint
+        run: |
+          pylint $(git ls-files '*.py') \
+          --ignore=" \
+            build, \
+            __init__.py \
+          " \
+          --disable=" \
+            fixme \
+          " \
+          --load-plugins=" \
+            pylint.extensions.check_elif, \
+            pylint.extensions.bad_builtin, \
+            pylint.extensions.docparams, \
+            pylint.extensions.for_any_all, \
+            pylint.extensions.set_membership, \
+            pylint.extensions.code_style, \
+            pylint.extensions.overlapping_exceptions, \
+            pylint.extensions.typing, \
+            pylint.extensions.redefined_variable_type, \
+            pylint.extensions.comparison_placement, \
+            pylint.extensions.broad_try_clause, \
+            pylint.extensions.dict_init_mutate, \
+            pylint.extensions.consider_refactoring_into_while_condition, \
+          "

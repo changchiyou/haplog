@@ -1,0 +1,1 @@
+colorama>=0.3.4 ; sys_platform == 'win32'

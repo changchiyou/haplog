@@ -1,3 +1,4 @@
+"""Demo for haplog, including single/multi-process and redirecting msg to logger."""
 import concurrent.futures
 import logging
 import logging.handlers
@@ -6,6 +7,8 @@ from contextlib import redirect_stdout
 from pathlib import Path
 
 from haplog import MultiProcessLogger, OutputLogger, worker_configurer
+
+# pylint: disable=duplicate-code
 
 LOGGER_NAME = "test"
 MESSAGE = "test"
@@ -17,10 +20,12 @@ if log_folder.exists() is False:
 
 
 def third_party_function():
+    """Third-party function for `OutputLogger` redirecting showcase."""
     print(MESSAGE + " by third_party_function()")
 
 
 def single_process():
+    """Single process contains `OutputLogger` for redirecting."""
     mpl = MultiProcessLogger(log_folder, level_console=logging.DEBUG)
     mpl.start()
     worker_configurer(mpl.queue)
@@ -43,24 +48,48 @@ def single_process():
 
 
 def worker_process(queue, configurer):
+    """Estimate the function of multi-process."""
+    # pylint: disable-next=import-outside-toplevel
     import time
+
+    # pylint: disable-next=import-outside-toplevel
     from random import random
 
     configurer(queue)
 
     name = multiprocessing.current_process().name
     logger = logging.getLogger(name)
-    logger.info("Worker started: %s" % name)
+    logger.info("Worker started: %s", name)
     time.sleep(random())
-    logger.info("Worker finished: %s" % name)
+    logger.info("Worker finished: %s", name)
 
 
-def multi_process():
+def multi_process_ing():
+    """Multi-process use `multiprocessing`."""
+    mpl = MultiProcessLogger(log_folder, level_console=logging.DEBUG)
+    mpl.start()
+
+    workers = []
+    for _ in range(5):
+        worker = multiprocessing.Process(
+            target=worker_process, args=(mpl.queue, worker_configurer)
+        )
+        workers.append(worker)
+        worker.start()
+    # pylint: disable=invalid-name
+    for w in workers:
+        w.join()
+
+    mpl.join()
+
+
+def multi_process_con():
+    """Multi-process use `concurrent.futures.ProcessPoolExecutor`."""
     mpl = MultiProcessLogger(log_folder, level_console=logging.DEBUG)
     mpl.start()
 
     with concurrent.futures.ProcessPoolExecutor(max_workers=10) as executor:
-        for _ in range(10):
+        for _ in range(5):
             executor.submit(worker_process, mpl.queue, worker_configurer)
 
     mpl.join()
@@ -68,4 +97,8 @@ def multi_process():
 
 if __name__ == "__main__":
     single_process()
-    multi_process()
+
+    print()
+    multi_process_ing()
+    print()
+    multi_process_con()
